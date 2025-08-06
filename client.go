@@ -59,7 +59,7 @@ func NewClient(apiKey string, opts ...ClientOption) *Client {
 	httpClient := &http.Client{
 		Timeout: 30 * time.Second,
 	}
-	baseURL, _ := url.Parse(defaultBaseURL)
+	baseURL, _ := url.Parse("https://api.statuspage.io/v1/")
 
 	c := &Client{
 		httpClient: httpClient,
@@ -171,7 +171,7 @@ func (c *Client) NewRequest(ctx context.Context, method, urlStr string, body int
 		req.Header.Set("Content-Type", "application/json")
 	}
 	req.Header.Set("Accept", "application/json")
-	req.Header.Set("User-Agent", c.userAgent)
+	//req.Header.Set("User-Agent", c.userAgent)
 	req.Header.Set("Authorization", fmt.Sprintf("OAuth %s", c.apiKey))
 
 	return req, nil

@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"time"
 )
 
 // ComponentsService handles all component-related API operations for tracking service status
@@ -25,7 +24,7 @@ type ComponentInput struct {
 	OnlyShowIfDegraded *bool      `json:"only_show_if_degraded,omitempty"`
 	GroupID            string     `json:"group_id,omitempty"`
 	Showcase           *bool      `json:"showcase,omitempty"`
-	StartDate          *time.Time `json:"start_date,omitempty"`
+	StartDate          *Time `json:"start_date,omitempty"`
 }
 
 // ComponentStatusInput is used specifically for updating only the status of a component

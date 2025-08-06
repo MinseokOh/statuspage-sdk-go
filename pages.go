@@ -2,6 +2,7 @@ package statuspage
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"net/http"
 )
@@ -54,11 +55,11 @@ type PageInput struct {
 	Headline                 string `json:"headline,omitempty"`
 	SupportURL               string `json:"support_url,omitempty"`
 	IPRestrictions           string `json:"ip_restrictions,omitempty"`
-	FaviconLogo              string `json:"favicon_logo,omitempty"`
-	TransactionalLogo        string `json:"transactional_logo,omitempty"`
-	HeroCover                string `json:"hero_cover,omitempty"`
-	EmailLogo                string `json:"email_logo,omitempty"`
-	TwitterLogo              string `json:"twitter_logo,omitempty"`
+	FaviconLogo              json.RawMessage `json:"favicon_logo,omitempty"`
+	TransactionalLogo        json.RawMessage `json:"transactional_logo,omitempty"`
+	HeroCover                json.RawMessage `json:"hero_cover,omitempty"`
+	EmailLogo                json.RawMessage `json:"email_logo,omitempty"`
+	TwitterLogo              json.RawMessage `json:"twitter_logo,omitempty"`
 }
 
 // List retrieves all status pages accessible with the current API key
