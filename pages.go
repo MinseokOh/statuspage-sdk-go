@@ -63,52 +63,52 @@ type PageInput struct {
 }
 
 // List retrieves all status pages accessible with the current API key
-func (s *PagesService) List(ctx context.Context) ([]*Page, *Response, error) {
+func (s *PagesService) List(ctx context.Context) ([]*Page, error) {
 	req, err := s.client.NewRequest(ctx, http.MethodGet, "pages", nil)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	var pages []*Page
-	resp, err := s.client.Do(ctx, req, &pages)
+	_, err = s.client.Do(ctx, req, &pages)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return pages, resp, nil
+	return pages, nil
 }
 
 // Get retrieves a specific status page by its unique identifier
-func (s *PagesService) Get(ctx context.Context, pageID string) (*Page, *Response, error) {
+func (s *PagesService) Get(ctx context.Context, pageID string) (*Page, error) {
 	u := fmt.Sprintf("pages/%s", pageID)
 	req, err := s.client.NewRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	page := new(Page)
-	resp, err := s.client.Do(ctx, req, page)
+	_, err = s.client.Do(ctx, req, page)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return page, resp, nil
+	return page, nil
 }
 
 // Update modifies an existing status page with new configuration settings
-func (s *PagesService) Update(ctx context.Context, pageID string, page *PageInput) (*Page, *Response, error) {
+func (s *PagesService) Update(ctx context.Context, pageID string, page *PageInput) (*Page, error) {
 	u := fmt.Sprintf("pages/%s", pageID)
 	pageReq := &PageRequest{Page: page}
 	req, err := s.client.NewRequest(ctx, http.MethodPatch, u, pageReq)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	updatedPage := new(Page)
-	resp, err := s.client.Do(ctx, req, updatedPage)
+	_, err = s.client.Do(ctx, req, updatedPage)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return updatedPage, resp, nil
+	return updatedPage, nil
 }

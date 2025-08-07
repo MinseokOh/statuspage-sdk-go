@@ -72,109 +72,109 @@ const (
 )
 
 // List retrieves incidents for a status page with optional filtering and pagination
-func (s *IncidentsService) List(ctx context.Context, pageID string, opts *IncidentListOptions) ([]*Incident, *Response, error) {
+func (s *IncidentsService) List(ctx context.Context, pageID string, opts *IncidentListOptions) ([]*Incident, error) {
 	u := fmt.Sprintf("pages/%s/incidents", pageID)
 	u, err := addOptions(u, opts)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	req, err := s.client.NewRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	var incidents []*Incident
-	resp, err := s.client.Do(ctx, req, &incidents)
+	_, err = s.client.Do(ctx, req, &incidents)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return incidents, resp, nil
+	return incidents, nil
 }
 
 // ListUnresolved retrieves all active incidents that have not been resolved
-func (s *IncidentsService) ListUnresolved(ctx context.Context, pageID string) ([]*Incident, *Response, error) {
+func (s *IncidentsService) ListUnresolved(ctx context.Context, pageID string) ([]*Incident, error) {
 	u := fmt.Sprintf("pages/%s/incidents/unresolved", pageID)
 	req, err := s.client.NewRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	var incidents []*Incident
-	resp, err := s.client.Do(ctx, req, &incidents)
+	_, err = s.client.Do(ctx, req, &incidents)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return incidents, resp, nil
+	return incidents, nil
 }
 
 // ListScheduled retrieves all scheduled maintenance incidents for future events
-func (s *IncidentsService) ListScheduled(ctx context.Context, pageID string) ([]*Incident, *Response, error) {
+func (s *IncidentsService) ListScheduled(ctx context.Context, pageID string) ([]*Incident, error) {
 	u := fmt.Sprintf("pages/%s/incidents/scheduled", pageID)
 	req, err := s.client.NewRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	var incidents []*Incident
-	resp, err := s.client.Do(ctx, req, &incidents)
+	_, err = s.client.Do(ctx, req, &incidents)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return incidents, resp, nil
+	return incidents, nil
 }
 
-func (s *IncidentsService) Get(ctx context.Context, pageID, incidentID string) (*Incident, *Response, error) {
+func (s *IncidentsService) Get(ctx context.Context, pageID, incidentID string) (*Incident, error) {
 	u := fmt.Sprintf("pages/%s/incidents/%s", pageID, incidentID)
 	req, err := s.client.NewRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	incident := new(Incident)
-	resp, err := s.client.Do(ctx, req, incident)
+	_, err = s.client.Do(ctx, req, incident)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return incident, resp, nil
+	return incident, nil
 }
 
-func (s *IncidentsService) Create(ctx context.Context, pageID string, incident *IncidentInput) (*Incident, *Response, error) {
+func (s *IncidentsService) Create(ctx context.Context, pageID string, incident *IncidentInput) (*Incident, error) {
 	u := fmt.Sprintf("pages/%s/incidents", pageID)
 	incidentReq := &IncidentRequest{Incident: incident}
 	req, err := s.client.NewRequest(ctx, http.MethodPost, u, incidentReq)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	newIncident := new(Incident)
-	resp, err := s.client.Do(ctx, req, newIncident)
+	_, err = s.client.Do(ctx, req, newIncident)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return newIncident, resp, nil
+	return newIncident, nil
 }
 
-func (s *IncidentsService) Update(ctx context.Context, pageID, incidentID string, incident *IncidentInput) (*Incident, *Response, error) {
+func (s *IncidentsService) Update(ctx context.Context, pageID, incidentID string, incident *IncidentInput) (*Incident, error) {
 	u := fmt.Sprintf("pages/%s/incidents/%s", pageID, incidentID)
 	incidentReq := &IncidentRequest{Incident: incident}
 	req, err := s.client.NewRequest(ctx, http.MethodPatch, u, incidentReq)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	updatedIncident := new(Incident)
-	resp, err := s.client.Do(ctx, req, updatedIncident)
+	_, err = s.client.Do(ctx, req, updatedIncident)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return updatedIncident, resp, nil
+	return updatedIncident, nil
 }
 
 func (s *IncidentsService) Delete(ctx context.Context, pageID, incidentID string) (*Response, error) {

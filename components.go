@@ -44,73 +44,73 @@ const (
 )
 
 // List retrieves all components for a specific status page
-func (s *ComponentsService) List(ctx context.Context, pageID string) ([]*Component, *Response, error) {
+func (s *ComponentsService) List(ctx context.Context, pageID string) ([]*Component, error) {
 	u := fmt.Sprintf("pages/%s/components", pageID)
 	req, err := s.client.NewRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	var components []*Component
-	resp, err := s.client.Do(ctx, req, &components)
+	_, err = s.client.Do(ctx, req, &components)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return components, resp, nil
+	return components, nil
 }
 
 // Get retrieves a specific component by its unique identifier
-func (s *ComponentsService) Get(ctx context.Context, pageID, componentID string) (*Component, *Response, error) {
+func (s *ComponentsService) Get(ctx context.Context, pageID, componentID string) (*Component, error) {
 	u := fmt.Sprintf("pages/%s/components/%s", pageID, componentID)
 	req, err := s.client.NewRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	component := new(Component)
-	resp, err := s.client.Do(ctx, req, component)
+	_, err = s.client.Do(ctx, req, component)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return component, resp, nil
+	return component, nil
 }
 
 // Create adds a new component to track on the status page
-func (s *ComponentsService) Create(ctx context.Context, pageID string, component *ComponentInput) (*Component, *Response, error) {
+func (s *ComponentsService) Create(ctx context.Context, pageID string, component *ComponentInput) (*Component, error) {
 	u := fmt.Sprintf("pages/%s/components", pageID)
 	componentReq := &ComponentRequest{Component: component}
 	req, err := s.client.NewRequest(ctx, http.MethodPost, u, componentReq)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	newComponent := new(Component)
-	resp, err := s.client.Do(ctx, req, newComponent)
+	_, err = s.client.Do(ctx, req, newComponent)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return newComponent, resp, nil
+	return newComponent, nil
 }
 
 // Update modifies an existing component's configuration
-func (s *ComponentsService) Update(ctx context.Context, pageID, componentID string, component *ComponentInput) (*Component, *Response, error) {
+func (s *ComponentsService) Update(ctx context.Context, pageID, componentID string, component *ComponentInput) (*Component, error) {
 	u := fmt.Sprintf("pages/%s/components/%s", pageID, componentID)
 	componentReq := &ComponentRequest{Component: component}
 	req, err := s.client.NewRequest(ctx, http.MethodPatch, u, componentReq)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	updatedComponent := new(Component)
-	resp, err := s.client.Do(ctx, req, updatedComponent)
+	_, err = s.client.Do(ctx, req, updatedComponent)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return updatedComponent, resp, nil
+	return updatedComponent, nil
 }
 
 // Delete removes a component from the status page
@@ -130,21 +130,21 @@ func (s *ComponentsService) Delete(ctx context.Context, pageID, componentID stri
 }
 
 // UpdateStatus changes only the operational status of a component
-func (s *ComponentsService) UpdateStatus(ctx context.Context, pageID, componentID, status string) (*Component, *Response, error) {
+func (s *ComponentsService) UpdateStatus(ctx context.Context, pageID, componentID, status string) (*Component, error) {
 	u := fmt.Sprintf("pages/%s/components/%s", pageID, componentID)
 	statusInput := &ComponentStatusInput{}
 	statusInput.Component.Status = status
 
 	req, err := s.client.NewRequest(ctx, http.MethodPatch, u, statusInput)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	component := new(Component)
-	resp, err := s.client.Do(ctx, req, component)
+	_, err = s.client.Do(ctx, req, component)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return component, resp, nil
+	return component, nil
 }

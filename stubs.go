@@ -24,73 +24,73 @@ type PageAccessUserInput struct {
 }
 
 // List gets a list of page access users for audience-specific status pages
-func (s *PageAccessUsersService) List(ctx context.Context, pageID string) ([]*PageAccessUser, *Response, error) {
+func (s *PageAccessUsersService) List(ctx context.Context, pageID string) ([]*PageAccessUser, error) {
 	u := fmt.Sprintf("pages/%s/page_access_users", pageID)
 	req, err := s.client.NewRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	var users []*PageAccessUser
-	resp, err := s.client.Do(ctx, req, &users)
+	_, err = s.client.Do(ctx, req, &users)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return users, resp, nil
+	return users, nil
 }
 
 // Get retrieves a specific page access user by ID
-func (s *PageAccessUsersService) Get(ctx context.Context, pageID, userID string) (*PageAccessUser, *Response, error) {
+func (s *PageAccessUsersService) Get(ctx context.Context, pageID, userID string) (*PageAccessUser, error) {
 	u := fmt.Sprintf("pages/%s/page_access_users/%s", pageID, userID)
 	req, err := s.client.NewRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	user := new(PageAccessUser)
-	resp, err := s.client.Do(ctx, req, user)
+	_, err = s.client.Do(ctx, req, user)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return user, resp, nil
+	return user, nil
 }
 
 // Create creates a new page access user for audience-specific access control
-func (s *PageAccessUsersService) Create(ctx context.Context, pageID string, user *PageAccessUserInput) (*PageAccessUser, *Response, error) {
+func (s *PageAccessUsersService) Create(ctx context.Context, pageID string, user *PageAccessUserInput) (*PageAccessUser, error) {
 	u := fmt.Sprintf("pages/%s/page_access_users", pageID)
 	userReq := &PageAccessUserRequest{PageAccessUser: user}
 	req, err := s.client.NewRequest(ctx, http.MethodPost, u, userReq)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	newUser := new(PageAccessUser)
-	resp, err := s.client.Do(ctx, req, newUser)
+	_, err = s.client.Do(ctx, req, newUser)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return newUser, resp, nil
+	return newUser, nil
 }
 
 // Update modifies an existing page access user
-func (s *PageAccessUsersService) Update(ctx context.Context, pageID, userID string, user *PageAccessUserInput) (*PageAccessUser, *Response, error) {
+func (s *PageAccessUsersService) Update(ctx context.Context, pageID, userID string, user *PageAccessUserInput) (*PageAccessUser, error) {
 	u := fmt.Sprintf("pages/%s/page_access_users/%s", pageID, userID)
 	userReq := &PageAccessUserRequest{PageAccessUser: user}
 	req, err := s.client.NewRequest(ctx, http.MethodPatch, u, userReq)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	updatedUser := new(PageAccessUser)
-	resp, err := s.client.Do(ctx, req, updatedUser)
+	_, err = s.client.Do(ctx, req, updatedUser)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return updatedUser, resp, nil
+	return updatedUser, nil
 }
 
 // Delete removes a page access user
@@ -129,73 +129,73 @@ type PageAccessGroupInput struct {
 }
 
 // List gets a list of page access groups for audience-specific status pages
-func (s *PageAccessGroupsService) List(ctx context.Context, pageID string) ([]*PageAccessGroup, *Response, error) {
+func (s *PageAccessGroupsService) List(ctx context.Context, pageID string) ([]*PageAccessGroup, error) {
 	u := fmt.Sprintf("pages/%s/page_access_groups", pageID)
 	req, err := s.client.NewRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	var groups []*PageAccessGroup
-	resp, err := s.client.Do(ctx, req, &groups)
+	_, err = s.client.Do(ctx, req, &groups)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return groups, resp, nil
+	return groups, nil
 }
 
 // Get retrieves a specific page access group by ID
-func (s *PageAccessGroupsService) Get(ctx context.Context, pageID, groupID string) (*PageAccessGroup, *Response, error) {
+func (s *PageAccessGroupsService) Get(ctx context.Context, pageID, groupID string) (*PageAccessGroup, error) {
 	u := fmt.Sprintf("pages/%s/page_access_groups/%s", pageID, groupID)
 	req, err := s.client.NewRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	group := new(PageAccessGroup)
-	resp, err := s.client.Do(ctx, req, group)
+	_, err = s.client.Do(ctx, req, group)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return group, resp, nil
+	return group, nil
 }
 
 // Create creates a new page access group for organizing users with similar access needs
-func (s *PageAccessGroupsService) Create(ctx context.Context, pageID string, group *PageAccessGroupInput) (*PageAccessGroup, *Response, error) {
+func (s *PageAccessGroupsService) Create(ctx context.Context, pageID string, group *PageAccessGroupInput) (*PageAccessGroup, error) {
 	u := fmt.Sprintf("pages/%s/page_access_groups", pageID)
 	groupReq := &PageAccessGroupRequest{PageAccessGroup: group}
 	req, err := s.client.NewRequest(ctx, http.MethodPost, u, groupReq)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	newGroup := new(PageAccessGroup)
-	resp, err := s.client.Do(ctx, req, newGroup)
+	_, err = s.client.Do(ctx, req, newGroup)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return newGroup, resp, nil
+	return newGroup, nil
 }
 
 // Update modifies an existing page access group
-func (s *PageAccessGroupsService) Update(ctx context.Context, pageID, groupID string, group *PageAccessGroupInput) (*PageAccessGroup, *Response, error) {
+func (s *PageAccessGroupsService) Update(ctx context.Context, pageID, groupID string, group *PageAccessGroupInput) (*PageAccessGroup, error) {
 	u := fmt.Sprintf("pages/%s/page_access_groups/%s", pageID, groupID)
 	groupReq := &PageAccessGroupRequest{PageAccessGroup: group}
 	req, err := s.client.NewRequest(ctx, http.MethodPatch, u, groupReq)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	updatedGroup := new(PageAccessGroup)
-	resp, err := s.client.Do(ctx, req, updatedGroup)
+	_, err = s.client.Do(ctx, req, updatedGroup)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return updatedGroup, resp, nil
+	return updatedGroup, nil
 }
 
 // Delete removes a page access group
@@ -233,73 +233,73 @@ type TemplateInput struct {
 }
 
 // List gets a list of incident templates for creating incidents with pre-filled information
-func (s *TemplatesService) List(ctx context.Context, pageID string) ([]*Template, *Response, error) {
+func (s *TemplatesService) List(ctx context.Context, pageID string) ([]*Template, error) {
 	u := fmt.Sprintf("pages/%s/incident_templates", pageID)
 	req, err := s.client.NewRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	var templates []*Template
-	resp, err := s.client.Do(ctx, req, &templates)
+	_, err = s.client.Do(ctx, req, &templates)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return templates, resp, nil
+	return templates, nil
 }
 
 // Get retrieves a specific incident template by ID
-func (s *TemplatesService) Get(ctx context.Context, pageID, templateID string) (*Template, *Response, error) {
+func (s *TemplatesService) Get(ctx context.Context, pageID, templateID string) (*Template, error) {
 	u := fmt.Sprintf("pages/%s/incident_templates/%s", pageID, templateID)
 	req, err := s.client.NewRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	template := new(Template)
-	resp, err := s.client.Do(ctx, req, template)
+	_, err = s.client.Do(ctx, req, template)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return template, resp, nil
+	return template, nil
 }
 
 // Create creates a new incident template with pre-filled name and message for faster incident creation
-func (s *TemplatesService) Create(ctx context.Context, pageID string, template *TemplateInput) (*Template, *Response, error) {
+func (s *TemplatesService) Create(ctx context.Context, pageID string, template *TemplateInput) (*Template, error) {
 	u := fmt.Sprintf("pages/%s/incident_templates", pageID)
 	templateReq := &TemplateRequest{Template: template}
 	req, err := s.client.NewRequest(ctx, http.MethodPost, u, templateReq)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	newTemplate := new(Template)
-	resp, err := s.client.Do(ctx, req, newTemplate)
+	_, err = s.client.Do(ctx, req, newTemplate)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return newTemplate, resp, nil
+	return newTemplate, nil
 }
 
 // Update modifies an existing incident template
-func (s *TemplatesService) Update(ctx context.Context, pageID, templateID string, template *TemplateInput) (*Template, *Response, error) {
+func (s *TemplatesService) Update(ctx context.Context, pageID, templateID string, template *TemplateInput) (*Template, error) {
 	u := fmt.Sprintf("pages/%s/incident_templates/%s", pageID, templateID)
 	templateReq := &TemplateRequest{Template: template}
 	req, err := s.client.NewRequest(ctx, http.MethodPatch, u, templateReq)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	updatedTemplate := new(Template)
-	resp, err := s.client.Do(ctx, req, updatedTemplate)
+	_, err = s.client.Do(ctx, req, updatedTemplate)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return updatedTemplate, resp, nil
+	return updatedTemplate, nil
 }
 
 // Delete removes an incident template
@@ -336,36 +336,36 @@ type StatusEmbedConfigInput struct {
 }
 
 // Get retrieves status embed config settings for customizing the appearance of embedded status widgets
-func (s *StatusEmbedConfigService) Get(ctx context.Context, pageID string) (*StatusEmbedConfig, *Response, error) {
+func (s *StatusEmbedConfigService) Get(ctx context.Context, pageID string) (*StatusEmbedConfig, error) {
 	u := fmt.Sprintf("pages/%s/status_embed_config", pageID)
 	req, err := s.client.NewRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	config := new(StatusEmbedConfig)
-	resp, err := s.client.Do(ctx, req, config)
+	_, err = s.client.Do(ctx, req, config)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return config, resp, nil
+	return config, nil
 }
 
 // Update modifies the status embed config settings for customizing widget appearance
-func (s *StatusEmbedConfigService) Update(ctx context.Context, pageID string, config *StatusEmbedConfigInput) (*StatusEmbedConfig, *Response, error) {
+func (s *StatusEmbedConfigService) Update(ctx context.Context, pageID string, config *StatusEmbedConfigInput) (*StatusEmbedConfig, error) {
 	u := fmt.Sprintf("pages/%s/status_embed_config", pageID)
 	configReq := &StatusEmbedConfigRequest{StatusEmbedConfig: config}
 	req, err := s.client.NewRequest(ctx, http.MethodPatch, u, configReq)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	updatedConfig := new(StatusEmbedConfig)
-	resp, err := s.client.Do(ctx, req, updatedConfig)
+	_, err = s.client.Do(ctx, req, updatedConfig)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return updatedConfig, resp, nil
+	return updatedConfig, nil
 }

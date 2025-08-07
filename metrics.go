@@ -41,70 +41,70 @@ type MetricDataListOptions struct {
 	To   *time.Time `url:"to,omitempty"`
 }
 
-func (s *MetricsService) List(ctx context.Context, pageID string) ([]*Metric, *Response, error) {
+func (s *MetricsService) List(ctx context.Context, pageID string) ([]*Metric, error) {
 	u := fmt.Sprintf("pages/%s/metrics", pageID)
 	req, err := s.client.NewRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	var metrics []*Metric
-	resp, err := s.client.Do(ctx, req, &metrics)
+	_, err = s.client.Do(ctx, req, &metrics)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return metrics, resp, nil
+	return metrics, nil
 }
 
-func (s *MetricsService) Get(ctx context.Context, pageID, metricID string) (*Metric, *Response, error) {
+func (s *MetricsService) Get(ctx context.Context, pageID, metricID string) (*Metric, error) {
 	u := fmt.Sprintf("pages/%s/metrics/%s", pageID, metricID)
 	req, err := s.client.NewRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	metric := new(Metric)
-	resp, err := s.client.Do(ctx, req, metric)
+	_, err = s.client.Do(ctx, req, metric)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return metric, resp, nil
+	return metric, nil
 }
 
-func (s *MetricsService) Create(ctx context.Context, pageID string, metric *MetricInput) (*Metric, *Response, error) {
+func (s *MetricsService) Create(ctx context.Context, pageID string, metric *MetricInput) (*Metric, error) {
 	u := fmt.Sprintf("pages/%s/metrics", pageID)
 	metricReq := &MetricRequest{Metric: metric}
 	req, err := s.client.NewRequest(ctx, http.MethodPost, u, metricReq)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	newMetric := new(Metric)
-	resp, err := s.client.Do(ctx, req, newMetric)
+	_, err = s.client.Do(ctx, req, newMetric)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return newMetric, resp, nil
+	return newMetric, nil
 }
 
-func (s *MetricsService) Update(ctx context.Context, pageID, metricID string, metric *MetricInput) (*Metric, *Response, error) {
+func (s *MetricsService) Update(ctx context.Context, pageID, metricID string, metric *MetricInput) (*Metric, error) {
 	u := fmt.Sprintf("pages/%s/metrics/%s", pageID, metricID)
 	metricReq := &MetricRequest{Metric: metric}
 	req, err := s.client.NewRequest(ctx, http.MethodPatch, u, metricReq)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	updatedMetric := new(Metric)
-	resp, err := s.client.Do(ctx, req, updatedMetric)
+	_, err = s.client.Do(ctx, req, updatedMetric)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return updatedMetric, resp, nil
+	return updatedMetric, nil
 }
 
 func (s *MetricsService) Delete(ctx context.Context, pageID, metricID string) (*Response, error) {
@@ -122,42 +122,42 @@ func (s *MetricsService) Delete(ctx context.Context, pageID, metricID string) (*
 	return resp, nil
 }
 
-func (s *MetricsService) AddData(ctx context.Context, pageID, metricID string, data *MetricDataInput) (*MetricData, *Response, error) {
+func (s *MetricsService) AddData(ctx context.Context, pageID, metricID string, data *MetricDataInput) (*MetricData, error) {
 	u := fmt.Sprintf("pages/%s/metrics/%s/data", pageID, metricID)
 	dataReq := &MetricDataRequest{Data: data}
 	req, err := s.client.NewRequest(ctx, http.MethodPost, u, dataReq)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	metricData := new(MetricData)
-	resp, err := s.client.Do(ctx, req, metricData)
+	_, err = s.client.Do(ctx, req, metricData)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return metricData, resp, nil
+	return metricData, nil
 }
 
-func (s *MetricsService) GetData(ctx context.Context, pageID, metricID string, opts *MetricDataListOptions) ([]*MetricData, *Response, error) {
+func (s *MetricsService) GetData(ctx context.Context, pageID, metricID string, opts *MetricDataListOptions) ([]*MetricData, error) {
 	u := fmt.Sprintf("pages/%s/metrics/%s/data", pageID, metricID)
 	u, err := addOptions(u, opts)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	req, err := s.client.NewRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	var data []*MetricData
-	resp, err := s.client.Do(ctx, req, &data)
+	_, err = s.client.Do(ctx, req, &data)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return data, resp, nil
+	return data, nil
 }
 
 func (s *MetricsService) DeleteData(ctx context.Context, pageID, metricID string) (*Response, error) {

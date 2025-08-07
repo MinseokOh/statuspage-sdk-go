@@ -31,75 +31,75 @@ type SubscriberListOptions struct {
 	PerPage int    `url:"per_page,omitempty"`
 }
 
-func (s *SubscribersService) List(ctx context.Context, pageID string, opts *SubscriberListOptions) ([]*Subscriber, *Response, error) {
+func (s *SubscribersService) List(ctx context.Context, pageID string, opts *SubscriberListOptions) ([]*Subscriber, error) {
 	u := fmt.Sprintf("pages/%s/subscribers", pageID)
 	u, err := addOptions(u, opts)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	req, err := s.client.NewRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	var subscribers []*Subscriber
-	resp, err := s.client.Do(ctx, req, &subscribers)
+	_, err = s.client.Do(ctx, req, &subscribers)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return subscribers, resp, nil
+	return subscribers, nil
 }
 
-func (s *SubscribersService) Get(ctx context.Context, pageID, subscriberID string) (*Subscriber, *Response, error) {
+func (s *SubscribersService) Get(ctx context.Context, pageID, subscriberID string) (*Subscriber, error) {
 	u := fmt.Sprintf("pages/%s/subscribers/%s", pageID, subscriberID)
 	req, err := s.client.NewRequest(ctx, http.MethodGet, u, nil)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	subscriber := new(Subscriber)
-	resp, err := s.client.Do(ctx, req, subscriber)
+	_, err = s.client.Do(ctx, req, subscriber)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return subscriber, resp, nil
+	return subscriber, nil
 }
 
-func (s *SubscribersService) Create(ctx context.Context, pageID string, subscriber *SubscriberInput) (*Subscriber, *Response, error) {
+func (s *SubscribersService) Create(ctx context.Context, pageID string, subscriber *SubscriberInput) (*Subscriber, error) {
 	u := fmt.Sprintf("pages/%s/subscribers", pageID)
 	subscriberReq := &SubscriberRequest{Subscriber: subscriber}
 	req, err := s.client.NewRequest(ctx, http.MethodPost, u, subscriberReq)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	newSubscriber := new(Subscriber)
-	resp, err := s.client.Do(ctx, req, newSubscriber)
+	_, err = s.client.Do(ctx, req, newSubscriber)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return newSubscriber, resp, nil
+	return newSubscriber, nil
 }
 
-func (s *SubscribersService) Update(ctx context.Context, pageID, subscriberID string, subscriber *SubscriberInput) (*Subscriber, *Response, error) {
+func (s *SubscribersService) Update(ctx context.Context, pageID, subscriberID string, subscriber *SubscriberInput) (*Subscriber, error) {
 	u := fmt.Sprintf("pages/%s/subscribers/%s", pageID, subscriberID)
 	subscriberReq := &SubscriberRequest{Subscriber: subscriber}
 	req, err := s.client.NewRequest(ctx, http.MethodPatch, u, subscriberReq)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	updatedSubscriber := new(Subscriber)
-	resp, err := s.client.Do(ctx, req, updatedSubscriber)
+	_, err = s.client.Do(ctx, req, updatedSubscriber)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return updatedSubscriber, resp, nil
+	return updatedSubscriber, nil
 }
 
 func (s *SubscribersService) Delete(ctx context.Context, pageID, subscriberID string) (*Response, error) {
@@ -117,36 +117,36 @@ func (s *SubscribersService) Delete(ctx context.Context, pageID, subscriberID st
 	return resp, nil
 }
 
-func (s *SubscribersService) Reactivate(ctx context.Context, pageID, subscriberID string) (*Subscriber, *Response, error) {
+func (s *SubscribersService) Reactivate(ctx context.Context, pageID, subscriberID string) (*Subscriber, error) {
 	u := fmt.Sprintf("pages/%s/subscribers/%s/reactivate", pageID, subscriberID)
 	req, err := s.client.NewRequest(ctx, http.MethodPost, u, nil)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	subscriber := new(Subscriber)
-	resp, err := s.client.Do(ctx, req, subscriber)
+	_, err = s.client.Do(ctx, req, subscriber)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return subscriber, resp, nil
+	return subscriber, nil
 }
 
-func (s *SubscribersService) Unsubscribe(ctx context.Context, pageID, subscriberID string) (*Subscriber, *Response, error) {
+func (s *SubscribersService) Unsubscribe(ctx context.Context, pageID, subscriberID string) (*Subscriber, error) {
 	u := fmt.Sprintf("pages/%s/subscribers/%s/unsubscribe", pageID, subscriberID)
 	req, err := s.client.NewRequest(ctx, http.MethodDelete, u, nil)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	subscriber := new(Subscriber)
-	resp, err := s.client.Do(ctx, req, subscriber)
+	_, err = s.client.Do(ctx, req, subscriber)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return subscriber, resp, nil
+	return subscriber, nil
 }
 
 func (s *SubscribersService) ResendConfirmation(ctx context.Context, pageID, subscriberID string) (*Response, error) {
